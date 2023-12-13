@@ -1,0 +1,86 @@
+et = [str(i) for i in range(10)]
+x = input("Adjon meg egy 3 jegyű számot: ") #szám amit vizsgálunk
+#paraméterek sorrendje: et num x
+
+def lehete(et,x):
+    i = 0
+    for e in str(x):
+        if i == 0 and e == "0":
+            return False
+        else: i = 1
+
+        for i in range(len(et)-1):
+            if e == et[i]:
+                et.pop(i)
+
+    if len(et) == 7: return True
+    else: return False
+
+def ketszam(et,x,helyi,plus = 0):
+    #paraméterek: Helyi-hányadik helyiérték, plus-"maradék" amit tovább viszünk kivonásnál
+    #vissza adja ketszam értékeként egy 3D-s listát:
+    # [egész] -> [mikor nincs plus],[mikor van plusz] -> [(egyik szám),(annak prája)]
+
+    #plus -> ha a felső szám kisebb, mint az alsó...
+    lista = []
+    a = []
+    b = []
+    j = 1
+    for h in x:
+        if j == helyi:
+            #megvan a "h" a jó h.é.-en
+            for i in range(9,-1,-1): # legyen i a felső szám
+                if j == 1:
+                    #egyszerű eset (nincs plusz):
+                    if str(i) in et and i-int(h) >= 0 and str(i-int(h)) in et:
+                        a.append([i,i-int(h)])
+                    #nehezebb eset:
+                    if str(i) in et and i+10 - int(h) < 10:
+                        b.append([i,i+10-int(h)])
+                else:
+                    # egyszerű eset (nincs plusz):
+                    if str(i) in et and i - int(h) - plus >= 0 and str(i - int(h) - plus) in et:
+                        a.append([i, i - int(h) - plus])
+                    # nehezebb eset:
+                    if str(i) in et and i + 10 - int(h) - plus< 10:
+                        b.append([i, i + 10 - int(h) - plus])
+
+        else: j += 1
+    print("a:",a)
+    return [a,b]
+
+def proba(et,x):
+    i = 1
+
+    if lehete(et,x):
+        while True:
+            ...
+    else:
+        print("Hibás szám")
+
+"""
+Marad 7 számunk. 
+A, végignézzuk az összes lehetőséget 
+    -(6*6*5*4*3*2) -> 4320 lehetőség (ha a 0 nem foglalt)
+B, sok logikai elágazáson keresztül az órához hasonlóan
+    -1es helyi é.-el kezdeni
+        -az eltérés a 2 szám között = "num" helyiértéke
+        -ha a fenti kisebb: 1 tovább kell vinni
+    -2es h. é.: same...
+"""
+
+"""
+1-es h.é.:
+    -kettő számot keresünk, amelyeknek különbsége x, ?.helyiértéke
+    -több szám van ami jó (lehet)
+"""
+
+"""if lehete(et,x):
+    kivon(et,num,x)
+else:
+    print("Hibás szám")"""
+
+print(f"Lehet e funk: {lehete(et, x)}")
+print(f"Kétszámos funk return: {ketszam(et, x, 2, 1)}")
+
+print(f"Et: {et}")
