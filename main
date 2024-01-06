@@ -1,86 +1,221 @@
-et = [str(i) for i in range(10)]
-x = input("Adjon meg egy 3 jegyű számot: ") #szám amit vizsgálunk
-#paraméterek sorrendje: et num x
+def szam(x):
+    #egy lista forma, hogy át lehessen járni az adott számot,
+    #számjegyről számjegyre
+    szam = []
+    for e in x:
+        szam.append(int(e))
+    return szam
 
-def lehete(et,x):
-    i = 0
-    for e in str(x):
-        if i == 0 and e == "0":
-            return False
-        else: i = 1
+def check_errors():
+    if len(szam(x)) != 3:
+        raise ValueError("3 számjegy kell")
+    for i in range(3):
+        for j in range(3):
+            if i == j: break
+    if szam(x)[0] == 0: raise ValueError("Nem kezdődhet 0-val")
 
-        for i in range(len(et)-1):
-            if e == et[i]:
-                et.pop(i)
-
-    if len(et) == 7: return True
-    else: return False
-
-def ketszam(et,x,helyi,plus = 0):
-    #paraméterek: Helyi-hányadik helyiérték, plus-"maradék" amit tovább viszünk kivonásnál
-    #vissza adja ketszam értékeként egy 3D-s listát:
-    # [egész] -> [mikor nincs plus],[mikor van plusz] -> [(egyik szám),(annak prája)]
-
-    #plus -> ha a felső szám kisebb, mint az alsó...
-    lista = []
+def ketszam(list,kül,mar = 0):
     a = []
     b = []
-    j = 1
-    for h in x:
-        if j == helyi:
-            #megvan a "h" a jó h.é.-en
-            for i in range(9,-1,-1): # legyen i a felső szám
-                if j == 1:
-                    #egyszerű eset (nincs plusz):
-                    if str(i) in et and i-int(h) >= 0 and str(i-int(h)) in et:
-                        a.append([i,i-int(h)])
-                    #nehezebb eset:
-                    if str(i) in et and i+10 - int(h) < 10:
-                        b.append([i,i+10-int(h)])
-                else:
-                    # egyszerű eset (nincs plusz):
-                    if str(i) in et and i - int(h) - plus >= 0 and str(i - int(h) - plus) in et:
-                        a.append([i, i - int(h) - plus])
-                    # nehezebb eset:
-                    if str(i) in et and i + 10 - int(h) - plus< 10:
-                        b.append([i, i + 10 - int(h) - plus])
-
-        else: j += 1
-    print("a:",a)
+    if mar == 0:
+        for e in list:
+            for j in list:
+                if e - j == kül:
+                    if e and j in list and e != j:
+                        a.append([e,j])
+        for e in list:
+            for j in list:
+                if e + 10 - j == kül:
+                    if e and j in list and e != j:
+                        b.append([e,j])
+    elif mar == 1:
+        for e in list:
+            f = e - kül
+            if f-1 in list and e != f-1:
+                a.append([e,f-1])
+            f = e + 10 - kül
+            if f-1 in list and e != f-1:
+                b.append([e,f-1])
     return [a,b]
 
-def proba(et,x):
-    i = 1
+def removes(par, szamlista):
+    for e in par:
+        try:
+            szamlista.remove(e)
+        except: continue
+def n_roszz(x_):
+    for i in range(len(x_)):
+        for j in range(len(x_)):
+            if i != j and szam(x_)[i] == szam(x_)[j]:
+                return True
+    return False
 
-    if lehete(et,x):
-        while True:
-            ...
-    else:
-        print("Hibás szám")
+#________GLOBAL_ADATOK_____________
+lista = [i for i in range(10)]
+x = input("Szám: ")
+#__________________________________
 
-"""
-Marad 7 számunk. 
-A, végignézzuk az összes lehetőséget 
-    -(6*6*5*4*3*2) -> 4320 lehetőség (ha a 0 nem foglalt)
-B, sok logikai elágazáson keresztül az órához hasonlóan
-    -1es helyi é.-el kezdeni
-        -az eltérés a 2 szám között = "num" helyiértéke
-        -ha a fenti kisebb: 1 tovább kell vinni
-    -2es h. é.: same...
-"""
+check_errors()
 
-"""
-1-es h.é.:
-    -kettő számot keresünk, amelyeknek különbsége x, ?.helyiértéke
-    -több szám van ami jó (lehet)
-"""
+def proba():
+    n = 0
+    x_ = x
+    for q in range(5040): # fact(7)
+        list_ = lista.copy()
+        x_ = int(x) + n
+        x_ = str(x_)
 
-"""if lehete(et,x):
-    kivon(et,num,x)
-else:
-    print("Hibás szám")"""
+        if n_roszz(x_):
+            n += 1
+            continue
 
-print(f"Lehet e funk: {lehete(et, x)}")
-print(f"Kétszámos funk return: {ketszam(et, x, 2, 1)}")
+        for e in szam(x_):
+            list_.remove(e)
 
-print(f"Et: {et}")
+        i = -1 # nincs-különbség(i=1), van-különbség(i=2)
+        for e in ketszam(list_,szam(x_)[2]): #adott számpár, 1h.é.
+            i += 1
+            for f in e: # f - adott számpár
+                list_ = lista.copy()
+                for e in szam(x_):
+                    list_.remove(e)
+                if i == 0: #nincs maradék
+                    removes(f,list_)
+                    # TOVÁBBIAKBAN: f = 1.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                    u = -1
+                    for b in ketszam(list_, szam(x_)[1]):  # adott számpár, 2h.é.
+                        u += 1
+                        for c in b:  # f - adott számpár
+                            if u == 0:  # nincs maradék
+                                list_ = lista.copy()
+                                for e in szam(x_):
+                                    list_.remove(e)
+                                removes(f,list_)
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+                            elif u == 1:  # van maradék
+                                list_ = lista.copy()
+                                for e in szam(x_):
+                                    list_.remove(e)
+                                removes(f, list_)
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+
+                elif i == 1: #van maradék
+                    removes(f, list_)
+                    # TOVÁBBIAKBAN: f = 1.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                    u = -1
+                    for b in ketszam(list_, szam(x_)[1],1):  # adott számpár, 2h.é.
+                        u += 1
+                        for c in b:  # f - adott számpár
+                            if u == 0:  # nincs maradék
+                                list_ = lista.copy()
+                                for e in szam(x_):
+                                    list_.remove(e)
+                                removes(f, list_)
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+                            elif u == 1:  # van maradék
+                                list_ = lista.copy()
+                                for e in szam(x_):
+                                    list_.remove(e)
+                                removes(f, list_)
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0],1)[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+
+        x_ = int(x) - n
+        x_ = str(x_)
+
+        i = -1 # nincs-különbség(i=1), van-különbség(i=2)
+        for e in ketszam(list_,szam(x_)[2]): #adott számpár, 1h.é.
+            i += 1
+            for f in e: # f - adott számpár
+                if i == 0: #nincs maradék
+                    removes(f,list_)
+                    # TOVÁBBIAKBAN: f = 1.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                    u = -1
+                    for b in ketszam(list_, szam(x_)[1]):  # adott számpár, 2h.é.
+                        u += 1
+                        for c in b:  # f - adott számpár
+                            if u == 0:  # nincs maradék
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+                            elif u == 1:  # van maradék
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+
+                elif i == 1: #van maradék
+                    removes(f, list_)
+                    # TOVÁBBIAKBAN: f = 1.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                    u = -1
+                    for b in ketszam(list_, szam(x_)[1],1):  # adott számpár, 2h.é.
+                        u += 1
+                        for c in b:  # f - adott számpár
+                            if u == 0:  # nincs maradék
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0])[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+
+                            elif u == 1:  # van maradék
+                                removes(c, list_)
+                                # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
+                                for g in ketszam(list_,szam(x_)[0],1)[0]:
+                                    removes(g, list_)
+                                    print("lista:",list_)
+                                    print(f"g, u, f: {g}, {c}, {f}")
+                                    print(f"x_: {x_}")
+                                    return None
+        n += 1
+
+    print(f"list_: {list_}, x: {x}, szam(x): {szam(x)}"
+          f"\nketszam(_,5): {ketszam(lista, 5)}")
+
+
+proba()
