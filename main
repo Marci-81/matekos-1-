@@ -95,9 +95,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
                             elif u == 1:  # van maradék
@@ -109,9 +109,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
 
@@ -131,9 +131,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
                             elif u == 1:  # van maradék
@@ -145,9 +145,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0],1)[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
 
@@ -170,9 +170,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
                             elif u == 1:  # van maradék
@@ -180,9 +180,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
 
@@ -198,9 +198,9 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0])[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
 
                             elif u == 1:  # van maradék
@@ -208,14 +208,10 @@ def proba():
                                 # TOVÁBBIAKBAN: c = 2.helyiérték | [n,m] n - kisebbítendő, m - kivonandó
                                 for g in ketszam(list_,szam(x_)[0],1)[0]:
                                     removes(g, list_)
-                                    print("lista:",list_)
-                                    print(f"g, u, f: {g}, {c}, {f}")
-                                    print(f"x_: {x_}")
+                                    print(f"kissebítendő: {g[0]}{c[0]}{f[0]}")#gcf
+                                    print(f"kivonandó: {g[1]}{c[1]}{f[1]}")
+                                    print(f"különbség: {x_}")
                                     return None
         n += 1
-
-    print(f"list_: {list_}, x: {x}, szam(x): {szam(x)}"
-          f"\nketszam(_,5): {ketszam(lista, 5)}")
-
 
 proba()
